@@ -1,0 +1,50 @@
+CREATE TABLE `category` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(200) NOT NULL,
+  PRIMARY KEY (`category_id`)
+);
+
+
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(200) NOT NULL,
+  `user_email` varchar(200) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `category_id` int NOT NULL,
+  PRIMARY KEY (`user_id`),
+  FOREIGN KEY (`category_id`) REFERENCES category(`category_id`)
+);
+
+CREATE TABLE `question` (
+  `question_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `body` varchar(500) NOT NULL,
+  PRIMARY KEY (`question_id`),
+  FOREIGN KEY (`user_id`) REFERENCES user(`user_id`),
+  FOREIGN KEY (`category_id`) REFERENCES category(`category_id`)
+);
+
+
+CREATE TABLE `reply` (
+  `reply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `comment` varchar(200) NOT NULL,
+  PRIMARY KEY (`reply_id`),
+  FOREIGN KEY (`user_id`) REFERENCES user(`user_id`),
+  FOREIGN KEY (`question_id`) REFERENCES question(`question_id`)
+);
+
+CREATE TABLE `vote` (
+  `vote_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `reply_id` int(11) NOT NULL,
+  `flag` varchar(10) NOT NULL,
+  PRIMARY KEY (`vote_id`),
+  FOREIGN KEY (`user_id`) REFERENCES user(`user_id`),
+  FOREIGN KEY (`question_id`) REFERENCES question(`question_id`),
+  FOREIGN KEY (`reply_id`) REFERENCES reply(`reply_id`)
+);
